@@ -1,0 +1,46 @@
+body{
+    background-image: url(https://miro.medium.com/v2/resize:fit:800/0*JUUIaKYvIBQq9p9y.jpg);
+}
+#paranet{
+    width: 20%;
+    height: 400px;
+    border: 1px solid black;
+    margin: auto;
+    text-align: center;
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+}
+input{
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+input:focus{
+    background-color: bisque;
+}
+#paranet>form>button{
+    width: 90%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#paranet>form>button:hover{
+    background-color: #0b5e0f;
+}
+
+table{
+    border: 1px,solid green;
+    color: white;
+    width: 50%;
+    margin-top: 50px;
+}
+td{
+    padding: 10px;
+    text-align: center;
+}
+table ,td{
+    border: 1px solid rgb(18, 16, 16);
+    border-collapse: collapse;
+}
