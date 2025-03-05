@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Listing</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <header>
+    <h1>E-Commerce Store</h1>
+    <input type="text" id="search-bar" placeholder="Search products..." oninput="searchProducts()">
+    <button onclick="window.location.href='cart.html'">Cart</button>
+  </header>
+
+  <div class="filters">
+    <select id="sort" onchange="sortProducts()">
+      <option value="default">Sort By</option>
+      <option value="price-low-to-high">Price: Low to High</option>
+      <option value="price-high-to-low">Price: High to Low</option>
+      <option value="rating">Rating</option>
+    </select>
+
+    <select id="category" onchange="filterProducts()">
+      <option value="all">All Categories</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Accessories">Accessories</option>
+    </select>
+
+    <select id="price-range" onchange="filterProducts()">
+      <option value="all">All Prices</option>
+      <option value="below-5000">Below ₹5000</option>
+      <option value="5000-10000">₹5000 - ₹10000</option>
+      <option value="above-10000">Above ₹10000</option>
+    </select>
+  </div>
+
+  <div id="product-list" class="product-grid"></div>
+
+  <div id="toast" class="toast">Product added to cart!</div>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
