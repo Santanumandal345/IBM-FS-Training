@@ -1,115 +1,3 @@
-// const express = require('express');
-// const fileHandler = require('./utils/fileHandler');
-// // const fileHandler1 = require('./utils/helpers/fileHandler');
-
-// const fs = require('fs');
-// const path = require('path');
-// const os = require('os');
-// const crypto = require('crypto');
-// const logRequest = require('./logger');
-// const productsData = require('./data');
-// const { readProductsFromFile, writeProductsToFile } = require('./utils/fileHandler');
-
-// const app = express();
-// const PORT = 3000;
-
-// // Middleware
-// app.use(express.json());
-// app.use(logRequest);
-
-// // System Information (Logged on server start)
-// console.log(`Hostname: ${os.hostname()}`);
-// console.log(`OS Type: ${os.type()}`);
-// console.log(`Total Memory: ${os.totalmem()}`);
-
-// // Routes
-
-// // Home Route
-// app.get('/', (req, res) => {
-//   res.send('Welcome to the Node.js Express API!');
-// });
-
-// // Get all products
-// app.get('/products', (req, res) => {
-//   const products = readProductsFromFile();
-//   res.json(products);
-// });
-
-// // Get product by ID
-// app.get('/products/:id', (req, res) => {
-//   const products = readProductsFromFile();
-//   const product = products.find(p => p.id === req.params.id);
-//   if (!product) {
-//     return res.status(404).json({ message: 'Product not found' });
-//   }
-//   res.json(product);
-// });
-
-// // Add a new product
-// app.post('/products', (req, res) => {
-//   const { name, price, category } = req.body;
-//   if (!name || !price || !category) {
-//     return res.status(400).json({ message: 'All fields are required' });
-//   }
-
-//   const newProduct = {
-//     id: crypto.randomUUID(),
-//     name,
-//     price,
-//     category,
-//   };
-
-//   const products = readProductsFromFile();
-//   products.push(newProduct);
-//   writeProductsToFile(products);
-
-//   res.status(201).json(newProduct);
-// });
-
-// // Update a product
-// app.put('/products/:id', (req, res) => {
-//   const { id } = req.params;
-//   const { name, price, category } = req.body;
-
-//   const products = readProductsFromFile();
-//   const productIndex = products.findIndex(p => p.id === id);
-
-//   if (productIndex === -1) {
-//     return res.status(404).json({ message: 'Product not found' });
-//   }
-
-//   products[productIndex] = { ...products[productIndex], name, price, category };
-//   writeProductsToFile(products);
-
-//   res.json(products[productIndex]);
-// });
-
-// // Delete a product
-// app.delete('/products/:id', (req, res) => {
-//   const { id } = req.params;
-
-//   const products = readProductsFromFile();
-//   const updatedProducts = products.filter(p => p.id !== id);
-
-//   if (updatedProducts.length === products.length) {
-//     return res.status(404).json({ message: 'Product not found' });
-//   }
-
-//   writeProductsToFile(updatedProducts);
-//   res.json({ message: 'Product deleted successfully' });
-// });
-
-// // Handle invalid routes
-// app.use((req, res) => {
-//   res.status(404).json({ message: 'Route not found' });
-// });
-
-// // Start server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
-const fileHandler = require('./utils/fileheader');
-//const fileHandler1 = require('./utils/helpers/fileheader');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -117,7 +5,6 @@ const os = require('os');
 const crypto = require('crypto');
 const logRequest = require('./logger');
 const productsData = require('./data');
-const { readProductsFromFile, writeProductsToFile } = require('./utils/fileheader');
 
 const app = express();
 const PORT = 3000;
@@ -127,12 +14,11 @@ app.use(express.json());
 app.use(logRequest);
 
 // System Information (Logged on server start)
-console.log('Hostname: ${os.hostname()}');
-console.log('OS Type: ${os.type()}');
-console.log('Total Memory: ${os.totalmem()}');
+console.log(`Hostname: ${os.hostname()}`);
+console.log(`OS Type: ${os.type()}`);
+console.log(`Total Memory: ${os.totalmem()}`);
 
 // Routes
-
 // Home Route
 app.get('/', (req, res) => {
   res.send('Welcome to the Node.js Express API!');
@@ -140,14 +26,12 @@ app.get('/', (req, res) => {
 
 // Get all products
 app.get('/products', (req, res) => {
-  const products = readProductsFromFile();
-  res.json(products);
+  res.json(productsData);
 });
 
 // Get product by ID
 app.get('/products/:id', (req, res) => {
-  const products = readProductsFromFile();
-  const product = products.find(p => p.id === req.params.id);
+  const product = productsData.find(p => p.id === req.params.id);
   if (!product) {
     return res.status(404).json({ message: 'Product not found' });
   }
@@ -160,18 +44,14 @@ app.post('/products', (req, res) => {
   if (!name || !price || !category) {
     return res.status(400).json({ message: 'All fields are required' });
   }
-
   const newProduct = {
     id: crypto.randomUUID(),
     name,
     price,
-    category,
+    category
   };
-
-  const products = readProductsFromFile();
-  products.push(newProduct);
-  writeProductsToFile(products);
-
+  productsData.push(newProduct);
+  fs.writeFileSync(path.join(__dirname, 'products.json'), JSON.stringify(productsData, null, 2));
   res.status(201).json(newProduct);
 });
 
@@ -179,32 +59,23 @@ app.post('/products', (req, res) => {
 app.put('/products/:id', (req, res) => {
   const { id } = req.params;
   const { name, price, category } = req.body;
-
-  const products = readProductsFromFile();
-  const productIndex = products.findIndex(p => p.id === id);
-
+  const productIndex = productsData.findIndex(p => p.id === id);
   if (productIndex === -1) {
     return res.status(404).json({ message: 'Product not found' });
   }
-
-  products[productIndex] = { ...products[productIndex], name, price, category };
-  writeProductsToFile(products);
-
-  res.json(products[productIndex]);
+  productsData[productIndex] = { ...productsData[productIndex], name, price, category };
+  fs.writeFileSync(path.join(__dirname, 'products.json'), JSON.stringify(productsData, null, 2));
+  res.json(productsData[productIndex]);
 });
 
 // Delete a product
 app.delete('/products/:id', (req, res) => {
   const { id } = req.params;
-
-  const products = readProductsFromFile();
-  const updatedProducts = products.filter(p => p.id !== id);
-
-  if (updatedProducts.length === products.length) {
+  const updatedProducts = productsData.filter(p => p.id !== id);
+  if (updatedProducts.length === productsData.length) {
     return res.status(404).json({ message: 'Product not found' });
   }
-
-  writeProductsToFile(updatedProducts);
+  fs.writeFileSync(path.join(__dirname, 'products.json'), JSON.stringify(updatedProducts, null, 2));
   res.json({ message: 'Product deleted successfully' });
 });
 
@@ -215,5 +86,5 @@ app.use((req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log('Server is running on http://localhost:${PORT}');
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
