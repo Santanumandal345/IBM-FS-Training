@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-express-backend",
+  "version": "1.0.0",
+  "description": "A simple Node.js and Express backend application.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
